@@ -2,7 +2,16 @@
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
+    <style>
+    .center {
+        margin: auto;
+        width: 60%;
+        border: 3px solid;
+        padding: 10px;
+    }
+    </style>
+
+    <div class="center">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">

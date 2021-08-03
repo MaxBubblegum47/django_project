@@ -1,7 +1,18 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
+    <style>
+    .center {
+        margin: auto;
+        width: 60%;
+        border: 3px solid;
+        padding: 10px;
+    }
+    </style>
+
+    <div class="center">
+    <div class="content-section" id="dati">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -21,4 +32,6 @@
             </small>
         </div>
     </div>
+    </div>
 {% endblock content %}
+
