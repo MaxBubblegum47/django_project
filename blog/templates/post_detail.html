@@ -1,54 +1,115 @@
 {% extends "base.html" %}
 {% block content %}
-  <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
-        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-        {% if object.author == user %}
-          <div class="column">
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-          </div>
-        {% endif %}
-      </div>
-      <h2 class="article-title">{{ object.title }}</h2>
-      <p class="article-content">{{ object.content | safe }}</p>
-        <form action="{% url 'like_post' post.pk %}" method = "POST">
-        {%  if post.header_image %}
-            <img src="{{ post.header_image.url }}" style="width:640px;height:360px;">
-        {% endif %}
-    <audio controls>
-    <source src= "{{ object.audio.url }}" type="audio/ogg">
-    <source src= "{{ object.audio.url }}" type="audio/ogg">
-    </audio>
-     {% csrf_token %}
-       <div>
-     <!--<a class="btn btn-default" href="{% url 'report_post' pk=post.pk %}">Report</a>-->
-    <!--<button type="submit", name="post_id", value ="{{ post.id }}", class = "btn btn-primary btn-sm">Like</button> - {{ total_likes }} Likes-->
-       </div>
+    <style>
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
+    </style>
 
 
-    </form>
-    </div>
-  </article>
-   <article>
-  {% for comment in post.comments.all %}
-    {% if user.is_authenticated and comment.approved_comment %}
-    <div class="comment">
-        <div class="date">
-            {% if not comment.approved_comment %}
-                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-            {% endif %}
+
+    <div class="center">
+        <ul class="thumbnails">
+            <li class="span4">
+                <div class="thumbnail">
+                    {%  if object.header_image %}
+                        <img src="{{ object.header_image.url }}" height="480" width="852"
+                             style="border-radius: 8px 8px 8px 8px;">
+                    {% endif %}
+                    <h3><a class="article-title" href="{% url 'post-detail' object.id %}">{{ object.title }}</a></h3>
+                    <p>
+                        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+                        <a href="{% url 'category' object.category|slugify  %}">{{ object.category }}</a>
+                        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+
+                    </p>
+            <div>
+            <!--<audio controls>-->
+            <audio preload="auto" src="{{ post.audio.url }}" loop="true" controls autobuffer="">
+                Unsupported in Firefox</audio>
+            <!--<source src= "{{ post.audio.url }}" type="audio" loop="true" autobuffer>-->
+            <script>
+            function setCookie(c_name,value,exdays)
+            {
+            var exdate=new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+            document.cookie=c_name + "=" + c_value;
+            }
+
+            function getCookie(c_name)
+            {
+                var i,x,y,ARRcookies=document.cookie.split(";");
+                for (i=0;i<ARRcookies.length;i++)
+            {
+                x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+                y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+                x=x.replace(/^\s+|\s+$/g,"");
+                if (x==c_name)
+                {
+                    return unescape(y);
+                }
+              }
+        }
+               var song = document.getElementsByTagName('audio')[0];
+               var played = false;
+               var tillPlayed = getCookie('timePlayed');
+               function update()
+        {
+            if(!played){
+            if(tillPlayed){
+                song.currentTime = tillPlayed;
+                song.play();
+                played = true;
+                }
+            else {
+                song.play();
+                played = true;
+                }
+            }
+            else {
+            setCookie('timePlayed', song.currentTime);
+            }
+        }
+        setInterval(update,1000);
+        </script>
+        <!--</audio>-->
         </div>
+
+                    <div class="caption">
+                        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+                        yyyyyyyyyyyyyyyyyyyyy
+                    </div>
+                    <p>
+                    <form action="{% url 'like_post' post.pk %}" method = "POST">
+                        {% csrf_token %}
+                        <a class="btn btn-default" href="{% url 'report_post' pk=post.pk %}">Report</a>
+                        <button type="submit", name="post_id", value ="{{ post.id }}", class = "btn btn-primary btn-sm">Like</button> - {{ post.total_likes }}
+                        Likes
+                    </form>
+                    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+                    </p>
+                </div>
+            </li>
+
+
+
+
+
+    <div class="media">
+    <a class="pull-left" href="#">
+    <img class="media-object" src="">
+    </a>
+    <div class="media-body">
+    <h4 class="media-heading">Comments</h4>
+    {% for comment in post.comments.all %}
+    {% if user.is_authenticated and comment.approved_comment %}
         <strong>{{ comment.author }}</strong> {{ comment.created_date }}
         <p>{{ comment.text|linebreaks }}</p>
-    </div>
+        </div>
     {% endif %}
-{% empty %}
-    <p></p>
-{% endfor %}
-  </article>
+    {% endfor %}
+
 {% endblock content %}
