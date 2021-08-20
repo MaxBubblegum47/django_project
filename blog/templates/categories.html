@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>{{ cats }}</h1>
+
+    <style>
+    .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+    }
+    </style>
+
+    <div class="center">
+    <ul class="thumbnails">
+    <li class="span4">
+    <div class="thumbnail">
     {% for post in posts %}
           <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
