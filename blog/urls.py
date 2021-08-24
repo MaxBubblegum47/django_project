@@ -9,7 +9,8 @@ from .views import (
     LikeView,
     CategoryCreateView,
     CategoryView,
-    Homeview
+    Homeview,
+    SearchView
 )
 from . import views
 
@@ -27,5 +28,6 @@ urlpatterns = [
     path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
     path('categorycreation/', CategoryCreateView.as_view(), name='category-create'),
-    path('category/<str:cats>/', CategoryView, name='category')
+    path('category/<str:cats>/', CategoryView, name='category'),
+    path('search_venues', SearchView, name='search_venues')
 ]

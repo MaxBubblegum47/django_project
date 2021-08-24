@@ -16,7 +16,18 @@ from .forms import CommentForm, PostForm, ReportForm
 
 from django.core.mail import EmailMessage, send_mail
 
-
+@login_required
+def SearchView(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        venues_title = Post.objects.filter(title__icontains=searched)
+        venues_author = Post.objects.filter(author__username__icontains=searched)
+        if venues_title.exists():
+            return render(request, 'search_venues.html', {'searched':searched, 'venues':venues_title})
+        elif venues_author.exists():
+            return render(request, 'search_venues.html', {'searched':searched, 'venues': venues_author})
+    else:
+        return render(request, 'search_venues.html', {})
 
 @login_required
 def ReportView(request, pk):

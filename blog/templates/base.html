@@ -54,6 +54,10 @@
                 <li class="" >
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
+                <form class="d-flex" method=POST action="{% url 'search_venues' %}">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="search" placeholder="Search" name="searched"><button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>
               {% else %}
                 <li class="">
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
