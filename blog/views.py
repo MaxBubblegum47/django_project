@@ -22,10 +22,13 @@ def SearchView(request):
         searched = request.POST['searched']
         venues_title = Post.objects.filter(title__icontains=searched)
         venues_author = Post.objects.filter(author__username__icontains=searched)
+        venues_tag = Post.objects.filter(author__blog_post__category__icontains=searched)
         if venues_title.exists():
             return render(request, 'search_venues.html', {'searched':searched, 'venues':venues_title})
         elif venues_author.exists():
             return render(request, 'search_venues.html', {'searched':searched, 'venues': venues_author})
+        elif venues_tag.exists():
+            return render(request, 'search_venues.html', {'searched':searched, 'venues':venues_tag})
     else:
         return render(request, 'search_venues.html', {})
 
