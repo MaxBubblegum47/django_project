@@ -1,78 +1,91 @@
 {% extends "base.html" %}
 {% block content %}
-{% for post in posts %}
-      <ul class="thumbnails">
-      <li class="span4">
-        <div class="thumbnail">
-          {%  if post.header_image %}
-          <img src="{{ post.header_image.url }}" height="250" width="250"
-                style="border-radius: 8px 8px 8px 8px;">
-           {% endif %}
-          <h3><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
-          <p>
-              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-              <a href="{% url 'category' post.category|slugify  %}">{{ post.category }}</a>
-              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-          </p>
-            <div>
-            <!--<audio controls>-->
-            <audio preload="auto" src="{{ post.audio.url }}" loop="true" controls autobuffer="">
-                Unsupported in Firefox</audio>
-            <!--<source src= "{{ post.audio.url }}" type="audio" loop="true" autobuffer>-->
-            <script>
-        function setCookie(c_name,value,exdays)
-        {
-            var exdate=new Date();
-            exdate.setDate(exdate.getDate() + exdays);
-            var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-            document.cookie=c_name + "=" + c_value;
-        }
 
-        function getCookie(c_name)
-        {
-            var i,x,y,ARRcookies=document.cookie.split(";");
-            for (i=0;i<ARRcookies.length;i++)
-            {
-              x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-              y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-              x=x.replace(/^\s+|\s+$/g,"");
-              if (x==c_name)
-                {
-                return unescape(y);
-                }
-              }
+    <style>
+        .center {
+            margin: auto;
+            width: 98%;
+            padding: 10px;
         }
-        var song = document.getElementsByTagName('audio')[0];
-        var played = false;
-        var tillPlayed = getCookie('timePlayed');
-        function update()
-        {
-            if(!played){
-                if(tillPlayed){
-                song.currentTime = tillPlayed;
-                song.play();
-                played = true;
+    </style>
+
+    <div class="center">
+
+    <class h1="title">New Songs</class>
+
+    {% for post in posts %}
+          <ul class="thumbnails">
+          <li class="span4">
+            <div class="thumbnail">
+              {%  if post.header_image %}
+              <img src="{{ post.header_image.url }}" height="250" width="250"
+                    style="border-radius: 8px 8px 8px 8px;">
+               {% endif %}
+              <h3><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+              <p>
+                  <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                  <a href="{% url 'category' post.category|slugify  %}">{{ post.category }}</a>
+                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+              </p>
+                <div>
+                <!--<audio controls>-->
+                <audio preload="auto" src="{{ post.audio.url }}" loop="true" controls autobuffer="">
+                    Unsupported in Firefox</audio>
+                <!--<source src= "{{ post.audio.url }}" type="audio" loop="true" autobuffer>-->
+                <script>
+            function setCookie(c_name,value,exdays)
+            {
+                var exdate=new Date();
+                exdate.setDate(exdate.getDate() + exdays);
+                var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+                document.cookie=c_name + "=" + c_value;
+            }
+
+            function getCookie(c_name)
+            {
+                var i,x,y,ARRcookies=document.cookie.split(";");
+                for (i=0;i<ARRcookies.length;i++)
+                {
+                  x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+                  y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+                  x=x.replace(/^\s+|\s+$/g,"");
+                  if (x==c_name)
+                    {
+                    return unescape(y);
+                    }
+                  }
+            }
+            var song = document.getElementsByTagName('audio')[0];
+            var played = false;
+            var tillPlayed = getCookie('timePlayed');
+            function update()
+            {
+                if(!played){
+                    if(tillPlayed){
+                    song.currentTime = tillPlayed;
+                    song.play();
+                    played = true;
+                    }
+                    else {
+                            song.play();
+                            played = true;
+                    }
                 }
                 else {
-                        song.play();
-                        played = true;
+                setCookie('timePlayed', song.currentTime);
                 }
             }
-            else {
-            setCookie('timePlayed', song.currentTime);
-            }
-        }
-        setInterval(update,1000);
-        </script>
+            setInterval(update,1000);
+            </script>
 
-            <!--</audio>-->
+                <!--</audio>-->
+                </div>
             </div>
+          </li>
+
+        {% endfor %}
+        </ul>
         </div>
-      </li>
-
-    {% endfor %}
-    </ul>
-
 
 
         <!-- Webamp will attempt to center itself within this div -->
