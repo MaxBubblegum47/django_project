@@ -16,6 +16,23 @@ from .forms import CommentForm, PostForm, ReportForm
 
 from django.core.mail import EmailMessage, send_mail
 
+
+class SuggestionView(ListView):
+    model = Post
+    template_name = 'suggestion.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Post.objects.order_by('-likes')
+
+    def get_context_data(self, *args, **kwargs):
+        cat_menu = Category.objects.all()
+        context = super(SuggestionView, self).get_context_data()
+        context["cat_menu"] = cat_menu
+        return context
+
+
 @login_required
 def SearchView(request):
     if request.method == "POST":
@@ -24,13 +41,14 @@ def SearchView(request):
         venues_author = Post.objects.filter(author__username__icontains=searched)
         venues_tag = Post.objects.filter(author__blog_post__category__icontains=searched)
         if venues_title.exists():
-            return render(request, 'search_venues.html', {'searched':searched, 'venues':venues_title})
+            return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_title})
         elif venues_author.exists():
-            return render(request, 'search_venues.html', {'searched':searched, 'venues': venues_author})
+            return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_author})
         elif venues_tag.exists():
-            return render(request, 'search_venues.html', {'searched':searched, 'venues':venues_tag})
+            return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_tag})
     else:
         return render(request, 'search_venues.html', {})
+
 
 @login_required
 def ReportView(request, pk):
@@ -43,7 +61,8 @@ def ReportView(request, pk):
             report.post = post
             report.save()
             msg = '''Hello, new deli customer service autore: '''
-            send_mail("Hello", "prova", "lorenzostigliano@gmail.com", ["lorenzostigliano@yahoo.com", ], fail_silently=False)
+            send_mail("Hello", "prova", "lorenzostigliano@gmail.com", ["lorenzostigliano@yahoo.com", ],
+                      fail_silently=False)
             return redirect('post-detail', pk=post.pk)
     else:
         form = ReportForm()
@@ -87,7 +106,7 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 
-#def home(request):
+# def home(request):
 #    context = {
 #        'posts': Post.objects.all().order_by("-date_posted")
 #    }
@@ -108,14 +127,15 @@ class Homeview(ListView):
         context["cat_menu"] = cat_menu
         return context
 
+
 def CategoryView(request, cats):
     context = {
         'posts': Post.objects.filter(category=cats.replace("-", " ")).order_by("-date_posted")
     }
     return render(request, 'categories.html', context)
 
-    #category_post = Post.objects.filter(category=cats)
-    #return render(request, 'categories.html', {'cats': cats, 'category_post': category_post})
+    # category_post = Post.objects.filter(category=cats)
+    # return render(request, 'categories.html', {'cats': cats, 'category_post': category_post})
 
 
 class PostListView(ListView):

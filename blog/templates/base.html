@@ -43,6 +43,9 @@
             <!-- Navbar Right Side -->
               {% if user.is_authenticated %}
                 <li class="">
+                <a class="nav-item nav-link" href="{% url 'suggestion' %}">Suggestion</a>
+                </li>
+                <li class="">
                 <a class="nav-item nav-link" href="{% url 'category-create' %}">New Playlist</a>
                 </li>
                 <li class="">
