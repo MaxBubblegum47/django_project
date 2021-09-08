@@ -102,7 +102,10 @@ def add_comment_to_post(request, pk):
 @login_required
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    post.likes.add(request.user)  # user likes this post
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 
