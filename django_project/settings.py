@@ -128,11 +128,5 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
 
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_USE_TLS = True
-#EMAIL_USE_SSL =  False
-EMAIL_HOST_USER = "lorenzostigliano@gmail.com"
-EMAIL_HOST_PASSWORD = ""
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
