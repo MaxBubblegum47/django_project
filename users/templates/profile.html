@@ -18,7 +18,11 @@
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary" style="text-align: center">{{ user.email }}</p>
-        </div>
+           <div class="center">
+                <a class="btn btn-outline-info mb-4" href="{% url 'user-posts' user.username %}">User's Post</a>
+           </div>
+           </div>
+
       <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <fieldset class="form-group">
