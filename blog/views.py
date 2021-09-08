@@ -46,6 +46,8 @@ def SearchView(request):
             return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_author})
         elif venues_tag.exists():
             return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_tag})
+        else:
+            return render(request, 'search_venues.html', {'searched': searched, 'venues': venues_tag})
     else:
         return render(request, 'search_venues.html', {})
 
