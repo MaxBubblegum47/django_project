@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, request
+from django.contrib.contenttypes.fields import GenericRelation
 from django.views.generic import (
     ListView,
     DetailView,
@@ -21,16 +23,11 @@ class SuggestionView(ListView):
     model = Post
     template_name = 'suggestion.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 6
 
     def get_queryset(self):
-        return Post.objects.order_by('-likes')
-
-    def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
-        context = super(SuggestionView, self).get_context_data()
-        context["cat_menu"] = cat_menu
-        return context
+        queryset = list(Post.objects.annotate(like_count=Count('likes')).order_by('-like_count'))
+        return queryset
 
 
 @login_required
@@ -121,7 +118,7 @@ class Homeview(ListView):
     model = Post
     template_name = 'user_posts.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 6
 
     def get_queryset(self):
         return Post.objects.order_by('-date_posted')
