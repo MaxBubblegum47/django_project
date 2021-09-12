@@ -22,3 +22,4 @@ class PostTest(TestCase):
 
             user_post = baker.make(Post, title="Post Test")
             self.assertEqual(str(user_post), "Post Test")
+
