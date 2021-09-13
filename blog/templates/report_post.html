@@ -2,6 +2,19 @@
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% block content %}
+    <style>
+    .center {
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+    </style>
+
+
+    <div class="center">
+    <ul class="thumbnails">
+    <li class="span4">
+    <div class="thumbnail">
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -13,5 +26,9 @@
                 <button class="btn btn-outline-info" type="submit">Report</button>
             </div>
         </form>
+    </div>
+    </div>
+    </li>
+    </ul>
     </div>
 {% endblock content %}
