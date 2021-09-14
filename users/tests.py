@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.test import RequestFactory, TestCase
 from django.contrib.auth.models import User
 from .views import profile
+from django.urls import reverse
+from django.test import Client
 
 # Testing User Creation and then test if his profile works fine
 class ProfileTest(TestCase):
@@ -20,4 +22,12 @@ class ProfileTest(TestCase):
         # Test my_view() as if it were deployed at /customer/details
         response = profile(request)
         # Use this syntax for class-based views.
+        self.assertEqual(response.status_code, 200)
+
+
+class HomePageTest(TestCase):
+
+    def testHome(self):
+        client = Client()
+        response = client.get(reverse('blog-home'))
         self.assertEqual(response.status_code, 200)

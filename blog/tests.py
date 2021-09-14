@@ -1,8 +1,10 @@
 import datetime
 
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from blog.models import Post
 from model_bakery import baker
+from .views import SearchView
+
 
 # Create your tests here.
 class PostTest(TestCase):
@@ -22,4 +24,3 @@ class PostTest(TestCase):
 
             user_post = baker.make(Post, title="Post Test")
             self.assertEqual(str(user_post), "Post Test")
-
