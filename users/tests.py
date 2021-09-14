@@ -14,14 +14,8 @@ class ProfileTest(TestCase):
 
     def test_details(self):
         request = self.factory.get('/profile')
-
-        # Recall that middleware are not supported. You can simulate a
-        # logged-in user by setting request.user manually.
         request.user = self.user
-
-        # Test my_view() as if it were deployed at /customer/details
         response = profile(request)
-        # Use this syntax for class-based views.
         self.assertEqual(response.status_code, 200)
 
 
