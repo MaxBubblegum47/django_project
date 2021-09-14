@@ -1,16 +1,12 @@
-import datetime
-
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from blog.models import Post
 from model_bakery import baker
-from .views import SearchView
-
 
 # Create your tests here.
 class PostTest(TestCase):
     def testPosting(self):
-        def test_event_model(self):
-            '''event = Post.objects.create(
+        '''def test_event_model(self):
+            event = Post.objects.create(
                 title="Some title",
                 audio="/media/cash.mp3",
                 header_image="/media/images/cash.jpg",
@@ -21,6 +17,5 @@ class PostTest(TestCase):
                 likes=800,
                 category='rock'
             )'''
-
-            user_post = baker.make(Post, title="Post Test")
-            self.assertEqual(str(user_post), "Post Test")
+        user_post = baker.make(Post, title="Post Test")
+        self.assertEqual(str(user_post), "Post Test")
