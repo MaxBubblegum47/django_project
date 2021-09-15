@@ -8,6 +8,6 @@
 |_______/ \______/ \______/       |__/     |__/\______/|_______/|__/\_______/
                                                                              
                                                                              
-*README provvisorio*
-Progetto Tecnologie Web 2021
-Sito simil blog, a tema musicale. Ogni utente può caricare la propria musica sul sito, commentare i brani caricati dagli altri artisti o lasciare on like. Ci si può registrare al sito e il proprio profilo utente può cambiare essere personalizzato. La musica caricata può essere ascoltata direttamente dal sito.                                                                           
+Blog a tema musicale all'interno del quale artisti indipendenti possono caricare, condividere e ascoltare musica. La piattaforma segue lo stile grafico legata al tema https://kristopolous.github.io/BOOTSTRA.386/. Per installarlo basta clonare la repo, aprirla con Pycharm e installare i requirements. Lascio a disposizione utente prova con cui potete interagire col sito:
+- username: test
+- password: prova1234
