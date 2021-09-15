@@ -109,7 +109,7 @@
     <h4 class="media-heading">Comments</h4>
     {% for comment in post.comments.all %}
     {% if user.is_authenticated and comment.approved_comment %}
-        <strong>{{ comment.author }}</strong> {{ comment.created_date }}
+        <strong>{{ comment.author }}</strong>
         <p>{{ comment.text|linebreaks }}</p>
         </div>
     {% endif %}
